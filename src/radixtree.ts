@@ -628,7 +628,7 @@ function writeVarint64ZigZag(bb: ByteBuffer, value: Long): void {
   });
 }
 
-import * as lzma from 'lzma-native';
+import * as lzma from './lzma.js';
 
 export class RadixTree {
   root: RadixTreeNode = {} as RadixTreeNode;
@@ -652,12 +652,8 @@ export class RadixTree {
     const data = new Uint8Array(buffer);
 
     if (RadixTree.isXzCompressed(url)) {
-      const buffer = Buffer.from(data);
-      const decompressed = await lzma.decompress(buffer);
-      if (!Buffer.isBuffer(decompressed)) {
-        throw new Error('LZMA decompression failed');
-      }
-      return RadixTree.decode(new Uint8Array(decompressed));
+      const decompressed = await lzma.decompress(data);
+      return RadixTree.decode(decompressed);
     }
     
     return RadixTree.decode(data);
