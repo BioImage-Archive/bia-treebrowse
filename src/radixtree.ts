@@ -653,8 +653,8 @@ export class RadixTree {
 
     if (RadixTree.isXzCompressed(url)) {
       const buffer = Buffer.from(data);
-      const decompressed = await lzma.decompress(buffer);
-      return RadixTree.decode(new Uint8Array(decompressed.buffer));
+      const decompressed = await lzma.decompress(buffer) as Buffer;
+      return RadixTree.decode(new Uint8Array(decompressed));
     }
     
     return RadixTree.decode(data);
