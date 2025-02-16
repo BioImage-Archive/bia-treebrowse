@@ -628,8 +628,14 @@ function writeVarint64ZigZag(bb: ByteBuffer, value: Long): void {
   });
 }
 
+import * as lzma from 'lzma-native';
+
 export class RadixTree {
   root: RadixTreeNode = {} as RadixTreeNode;
+
+  private static isXzCompressed(url: string): boolean {
+    return url.toLowerCase().endsWith('.xz');
+  }
 
   static decode(buffer: Uint8Array): RadixTree {
     const tree = new RadixTree();
@@ -643,7 +649,14 @@ export class RadixTree {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const buffer = await response.arrayBuffer();
-    return RadixTree.decode(new Uint8Array(buffer));
+    const data = new Uint8Array(buffer);
+
+    if (RadixTree.isXzCompressed(url)) {
+      const decompressed = await lzma.decompress(data);
+      return RadixTree.decode(decompressed);
+    }
+    
+    return RadixTree.decode(data);
   }
 
   static getLongSize(size?: Long): number {
