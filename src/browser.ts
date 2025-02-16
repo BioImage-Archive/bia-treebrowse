@@ -40,7 +40,7 @@ export function initializeApp() {
                 
                 // Lazy load children
                 if (isHidden && childrenDiv.children.length === 0) {
-                    node.children.forEach((edge: RadixTreeEdge) => {
+                    node.children?.forEach((edge: RadixTreeEdge) => {
                         if (edge.child) {
                             const childPath = path + (edge.edge_label || '');
                             childrenDiv.appendChild(createNodeElement(edge.child, childPath));

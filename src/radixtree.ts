@@ -646,7 +646,7 @@ export class RadixTree {
     return RadixTree.decode(new Uint8Array(buffer));
   }
 
-  private static getLongSize(size?: Long): number {
+  static getLongSize(size?: Long): number {
     if (!size) return 0;
     const low = size.low >>> 0;  // Convert to unsigned
     const high = size.high >>> 0; // Convert to unsigned
