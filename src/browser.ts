@@ -1,14 +1,58 @@
-import { RadixTree } from './radixtree.js';
+import { RadixTree, RadixTreeNode, RadixTreeEdge } from './radixtree.js';
 
 export function initializeApp() {
     const urlInput = document.getElementById('urlInput') as HTMLInputElement;
     const loadButton = document.getElementById('loadButton') as HTMLButtonElement;
-    const statsDiv = document.getElementById('stats') as HTMLDivElement;
+    const treeView = document.getElementById('treeView') as HTMLDivElement;
     const errorDiv = document.getElementById('error') as HTMLDivElement;
 
-    if (!urlInput || !loadButton || !statsDiv || !errorDiv) {
+    if (!urlInput || !loadButton || !treeView || !errorDiv) {
         console.error('Required DOM elements not found');
         return;
+    }
+
+    function createNodeElement(node: RadixTreeNode, path: string = ''): HTMLElement {
+        const nodeDiv = document.createElement('div');
+        nodeDiv.className = 'tree-node';
+        
+        const size = RadixTree.getLongSize(node.size);
+        const content = document.createElement('div');
+        content.className = 'node-content';
+        content.innerHTML = `
+            <span class="path">${path || '/'}</span>
+            <span class="size">${RadixTree.formatSize(size)}</span>
+        `;
+        nodeDiv.appendChild(content);
+
+        if (node.children && node.children.length > 0) {
+            const childrenDiv = document.createElement('div');
+            childrenDiv.className = 'node-children hidden';
+            
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'toggle-btn';
+            toggleBtn.textContent = '▶';
+            content.insertBefore(toggleBtn, content.firstChild);
+
+            toggleBtn.addEventListener('click', () => {
+                const isHidden = childrenDiv.classList.contains('hidden');
+                childrenDiv.classList.toggle('hidden');
+                toggleBtn.textContent = isHidden ? '▼' : '▶';
+                
+                // Lazy load children
+                if (isHidden && childrenDiv.children.length === 0) {
+                    node.children.forEach((edge: RadixTreeEdge) => {
+                        if (edge.child) {
+                            const childPath = path + (edge.edge_label || '');
+                            childrenDiv.appendChild(createNodeElement(edge.child, childPath));
+                        }
+                    });
+                }
+            });
+
+            nodeDiv.appendChild(childrenDiv);
+        }
+
+        return nodeDiv;
     }
 
     loadButton.addEventListener('click', async () => {
@@ -19,30 +63,14 @@ export function initializeApp() {
         }
 
         errorDiv.textContent = '';
-        statsDiv.innerHTML = '<p>Loading...</p>';
+        treeView.innerHTML = '<p>Loading...</p>';
 
         try {
             const tree = await RadixTree.loadFromUrl(url);
-            const totalSize = tree.getTotalSize();
-            
-            // Helper function to format bytes
-            const formatBytes = (bytes: number) => {
-                const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-                let size = bytes;
-                let unitIndex = 0;
-                while (size >= 1024 && unitIndex < units.length - 1) {
-                    size /= 1024;
-                    unitIndex++;
-                }
-                return `${size.toFixed(2)} ${units[unitIndex]}`;
-            };
-
-            statsDiv.innerHTML = `
-                <h3>File Statistics</h3>
-                <p>Total size: ${totalSize.toLocaleString()} bytes (${formatBytes(totalSize)})</p>
-            `;
+            treeView.innerHTML = '';
+            treeView.appendChild(createNodeElement(tree.root));
         } catch (error) {
-            statsDiv.innerHTML = `<p style="color: red">Error: ${error}</p>`;
+            treeView.innerHTML = `<p class="error">Error: ${error}</p>`;
         }
     });
 }

@@ -1,0 +1,45 @@
+.tree-node {
+    margin-left: 20px;
+    font-family: monospace;
+}
+
+.node-content {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-content:hover {
+    background-color: #f0f0f0;
+}
+
+.node-children {
+    margin-left: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 12px;
+}
+
+.path {
+    color: #333;
+    flex-grow: 1;
+}
+
+.size {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.error {
+    color: red;
+}
