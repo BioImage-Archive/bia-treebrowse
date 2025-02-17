@@ -88,13 +88,19 @@ export function initializeApp() {
             // Add top file types
             const topTypes = tree.getTopFileTypes(5);
             if (topTypes.length > 0) {
-                statsDiv.innerHTML += '<br>File types by size: ';
+                statsDiv.innerHTML += '<br><table class="file-types-table">';
+                statsDiv.innerHTML += '<tr><th>Type</th><th>Size</th><th>Files</th><th>Percentage</th></tr>';
                 statsDiv.innerHTML += topTypes
                     .map(([ext, stats]) => 
-                        `${ext}: ${RadixTree.formatSize(stats.size)} ` +
-                        `(${stats.count} files, ${stats.percentage.toFixed(1)}%)`
+                        `<tr>
+                            <td class="file-type">${ext}</td>
+                            <td class="file-size">${RadixTree.formatSize(stats.size)}</td>
+                            <td class="file-count">${stats.count}</td>
+                            <td class="file-percentage">${stats.percentage.toFixed(1)}%</td>
+                        </tr>`
                     )
-                    .join('<br>');
+                    .join('');
+                statsDiv.innerHTML += '</table>';
             }
             
             treeView.appendChild(statsDiv);

@@ -70,6 +70,41 @@
     line-height: 1.6;
 }
 
+.file-types-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.file-types-table th,
+.file-types-table td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.file-types-table th {
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.file-type {
+    font-weight: bold;
+}
+
+.file-size {
+    font-family: monospace;
+}
+
+.file-count {
+    text-align: right;
+}
+
+.file-percentage {
+    text-align: right;
+}
+
 .error {
     color: red;
 }
