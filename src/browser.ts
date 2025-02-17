@@ -88,19 +88,41 @@ export function initializeApp() {
             // Add top file types
             const topTypes = tree.getTopFileTypes(5);
             if (topTypes.length > 0) {
-                statsDiv.innerHTML += '<br><table class="file-types-table">';
-                statsDiv.innerHTML += '<tr><th>Type</th><th>Size</th><th>Files</th><th>Percentage</th></tr>';
-                statsDiv.innerHTML += topTypes
-                    .map(([ext, stats]) => 
-                        `<tr>
-                            <td class="file-type">${ext}</td>
-                            <td class="file-size">${RadixTree.formatSize(stats.size)}</td>
-                            <td class="file-count">${stats.count}</td>
-                            <td class="file-percentage">${stats.percentage.toFixed(1)}%</td>
-                        </tr>`
-                    )
-                    .join('');
-                statsDiv.innerHTML += '</table>';
+                statsDiv.appendChild(document.createElement('br'));
+                
+                const table = document.createElement('table');
+                table.className = 'file-types-table';
+                
+                // Create header row
+                const headerRow = table.insertRow();
+                ['Type', 'Size', 'Files', 'Percentage'].forEach(text => {
+                    const th = document.createElement('th');
+                    th.textContent = text;
+                    headerRow.appendChild(th);
+                });
+                
+                // Create data rows
+                topTypes.forEach(([ext, stats]) => {
+                    const row = table.insertRow();
+                    
+                    const typeCell = row.insertCell();
+                    typeCell.className = 'file-type';
+                    typeCell.textContent = ext;
+                    
+                    const sizeCell = row.insertCell();
+                    sizeCell.className = 'file-size';
+                    sizeCell.textContent = RadixTree.formatSize(stats.size);
+                    
+                    const countCell = row.insertCell();
+                    countCell.className = 'file-count';
+                    countCell.textContent = stats.count.toString();
+                    
+                    const percentCell = row.insertCell();
+                    percentCell.className = 'file-percentage';
+                    percentCell.textContent = `${stats.percentage.toFixed(1)}%`;
+                });
+                
+                statsDiv.appendChild(table);
             }
             
             treeView.appendChild(statsDiv);
