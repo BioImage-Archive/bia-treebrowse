@@ -26,7 +26,11 @@ export function initializeApp() {
         
         content.innerHTML = `
             <span class="path">${path || '/'}</span>
-            <span class="size">${RadixTree.formatSize(size)}</span>
+            <span class="size">${RadixTree.formatSize(size)}${
+                node.children && node.children.length > 0 
+                ? ` (total: ${RadixTree.formatSize(RadixTree.getNodeSize(node))})`
+                : ''
+            }</span>
         `;
         content.insertBefore(icon, content.firstChild);
 
