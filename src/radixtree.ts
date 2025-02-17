@@ -732,7 +732,7 @@ export class RadixTree {
     return types;
   }
 
-  getTopFileTypes(count: number = 5): Array<[string, { count: number; size: number; percentage: number }]> {
+  getAllFileTypes(): Array<[string, { count: number; size: number; percentage: number }]> {
     const types = this.getFileTypes();
     const totalSize = this.getTotalSize();
     
@@ -744,8 +744,7 @@ export class RadixTree {
           percentage: (stats.size / totalSize) * 100
         }
       ])
-      .sort((a, b) => b[1].size - a[1].size)
-      .slice(0, count);
+      .sort((a, b) => b[1].size - a[1].size);
   }
 
   // Get formatted size for display

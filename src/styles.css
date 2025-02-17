@@ -120,6 +120,15 @@
     text-align: right;
 }
 
+.totals-row {
+    border-top: 2px solid #ddd;
+    font-weight: bold;
+}
+
+.totals-row td {
+    padding-top: 12px;
+}
+
 .error {
     color: red;
 }

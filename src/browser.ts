@@ -88,17 +88,24 @@ export function initializeApp() {
             // Add total size and toggle button
             const totalSize = tree.getTotalSize();
             const summaryHeader = document.createElement('div');
-            summaryHeader.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            summaryHeader.style.display = 'flex';
+            summaryHeader.style.justifyContent = 'space-between';
+            summaryHeader.style.alignItems = 'center';
             
             const toggleButton = document.createElement('button');
             toggleButton.className = 'summary-toggle';
             toggleButton.textContent = 'Show Summary';
+            
+            const totalSizeSpan = document.createElement('span');
+            totalSizeSpan.textContent = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            
             summaryHeader.appendChild(toggleButton);
+            summaryHeader.appendChild(totalSizeSpan);
             
             statsDiv.appendChild(summaryHeader);
             
             // Add top file types
-            const topTypes = tree.getTopFileTypes(5);
+            const fileTypes = tree.getAllFileTypes();
             if (topTypes.length > 0) {
                 statsDiv.appendChild(document.createElement('br'));
                 
@@ -114,7 +121,8 @@ export function initializeApp() {
                 });
                 
                 // Create data rows
-                topTypes.forEach(([ext, stats]) => {
+                // Add all file types
+                fileTypes.forEach(([ext, stats]) => {
                     const row = table.insertRow();
                     
                     const typeCell = row.insertCell();
@@ -133,6 +141,26 @@ export function initializeApp() {
                     percentCell.className = 'file-percentage';
                     percentCell.textContent = `${stats.percentage.toFixed(1)}%`;
                 });
+
+                // Add totals row
+                const totalsRow = table.insertRow();
+                totalsRow.className = 'totals-row';
+                
+                const totalsLabelCell = totalsRow.insertCell();
+                totalsLabelCell.textContent = 'TOTAL';
+                totalsLabelCell.className = 'file-type';
+                
+                const totalsSizeCell = totalsRow.insertCell();
+                totalsSizeCell.textContent = RadixTree.formatSize(totalSize);
+                totalsSizeCell.className = 'file-size';
+                
+                const totalsCountCell = totalsRow.insertCell();
+                totalsCountCell.textContent = fileTypes.reduce((sum, [_, stats]) => sum + stats.count, 0).toString();
+                totalsCountCell.className = 'file-count';
+                
+                const totalsPercentCell = totalsRow.insertCell();
+                totalsPercentCell.textContent = '100.0%';
+                totalsPercentCell.className = 'file-percentage';
                 
                 table.style.display = 'none';
                 statsDiv.appendChild(table);
