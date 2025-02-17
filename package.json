@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "start": "ts-node src/demo.ts",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@types/lzma-native": "^4.0.4",
