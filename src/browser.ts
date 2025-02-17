@@ -97,6 +97,8 @@ export function initializeApp() {
             toggleButton.textContent = 'Show Summary';
             
             const totalSizeSpan = document.createElement('span');
+            // Get file types first
+            const fileTypes = tree.getAllFileTypes();
             const fileCount = tree.getTotalFileCount();
             const mostCommonType = fileTypes.length > 0 ? fileTypes[0][0] : 'none';
             totalSizeSpan.textContent = `Total Size: ${RadixTree.formatSize(totalSize)} | ${fileCount} files | Most common: ${mostCommonType}`;
@@ -106,8 +108,7 @@ export function initializeApp() {
             
             statsDiv.appendChild(summaryHeader);
             
-            // Add top file types
-            const fileTypes = tree.getAllFileTypes();
+            // Add file types table
             if (fileTypes.length > 0) {
                 statsDiv.appendChild(document.createElement('br'));
                 
