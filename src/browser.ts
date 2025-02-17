@@ -88,10 +88,13 @@ export function initializeApp() {
             // Add top file types
             const topTypes = tree.getTopFileTypes(5);
             if (topTypes.length > 0) {
-                statsDiv.innerHTML += '<br>Most common file types: ';
+                statsDiv.innerHTML += '<br>File types by size: ';
                 statsDiv.innerHTML += topTypes
-                    .map(([ext, count]) => `${ext} (${count})`)
-                    .join(', ');
+                    .map(([ext, stats]) => 
+                        `${ext}: ${RadixTree.formatSize(stats.size)} ` +
+                        `(${stats.count} files, ${stats.percentage.toFixed(1)}%)`
+                    )
+                    .join('<br>');
             }
             
             treeView.appendChild(statsDiv);

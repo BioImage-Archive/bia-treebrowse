@@ -706,8 +706,8 @@ export class RadixTree {
     return RadixTree.getNodeSize(this.root);
   }
 
-  getFileTypes(): Map<string, number> {
-    const types = new Map<string, number>();
+  getFileTypes(): Map<string, { count: number; size: number }> {
+    const types = new Map<string, { count: number; size: number }>();
     
     const processNode = (node: RadixTreeNode, path: string) => {
       if (node.children && node.children.length > 0) {
@@ -719,7 +719,12 @@ export class RadixTree {
       } else if (path) {
         // It's a file (no children)
         const ext = path.split('.').pop()?.toLowerCase() || 'no extension';
-        types.set(ext, (types.get(ext) || 0) + 1);
+        const size = RadixTree.getLongSize(node.size);
+        const existing = types.get(ext) || { count: 0, size: 0 };
+        types.set(ext, {
+          count: existing.count + 1,
+          size: existing.size + size
+        });
       }
     };
 
@@ -727,10 +732,19 @@ export class RadixTree {
     return types;
   }
 
-  getTopFileTypes(count: number = 5): [string, number][] {
+  getTopFileTypes(count: number = 5): Array<[string, { count: number; size: number; percentage: number }]> {
     const types = this.getFileTypes();
+    const totalSize = this.getTotalSize();
+    
     return Array.from(types.entries())
-      .sort((a, b) => b[1] - a[1])
+      .map(([ext, stats]) => [
+        ext,
+        { 
+          ...stats,
+          percentage: (stats.size / totalSize) * 100
+        }
+      ])
+      .sort((a, b) => b[1].size - a[1].size)
       .slice(0, count);
   }
 
