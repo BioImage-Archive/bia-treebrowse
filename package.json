@@ -4,16 +4,23 @@
   "description": "Radix tree protobuf viewer",
   "main": "dist/demo.js",
   "scripts": {
-    "build": "tsc",
+    "dev": "vite",
+    "build": "vite build",
     "start": "ts-node src/demo.ts",
-    "serve": "http-server -c-1"
+    "serve": "vite preview"
   },
   "dependencies": {
+    "@types/lzma-native": "^4.0.4",
+    "brotli-wasm": "^3.0.1",
+    "lzma": "^2.3.2",
+    "lzma-native": "^8.0.6",
+    "lzma-web": "^3.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
     "@types/node": "^20.11.19",
+    "http-server": "^14.1.1",
     "ts-node": "^10.9.2",
-    "http-server": "^14.1.1"
+    "typescript": "^5.3.3",
+    "vite": "^6.1.0"
   }
 }
