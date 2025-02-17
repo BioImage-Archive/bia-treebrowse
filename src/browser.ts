@@ -94,7 +94,7 @@ export function initializeApp() {
             
             const toggleButton = document.createElement('button');
             toggleButton.className = 'summary-toggle';
-            toggleButton.textContent = 'Show Summary';
+            toggleButton.textContent = 'Show Breakdown';
             
             const totalSizeSpan = document.createElement('span');
             // Get file types first
@@ -172,7 +172,7 @@ export function initializeApp() {
                 toggleButton.addEventListener('click', () => {
                     const isVisible = table.style.display !== 'none';
                     table.style.display = isVisible ? 'none' : '';
-                    toggleButton.textContent = isVisible ? 'Show Summary' : 'Hide Summary';
+                    toggleButton.textContent = isVisible ? 'Show Breakdown' : 'Hide Breakdown';
                 });
             }
             
