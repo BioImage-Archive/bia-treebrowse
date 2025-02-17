@@ -5,17 +5,15 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="controls">
-            <input type="text" id="urlInput" placeholder="Enter .pb file URL">
-            <button id="loadButton">Load Tree</button>
-        </div>
-        <div id="error"></div>
-        <div id="treeView"></div>
-    </div>
+    <div id="app" class="container"></div>
     <script type="module">
-        import { initializeApp } from './browser.js';
-        initializeApp();
+        import { FileBrowser } from './filebrowser.js';
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = urlParams.get('url');
+        const browser = new FileBrowser('app');
+        if (url) {
+            browser.loadUrl(url);
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Radix Tree Viewer - Test</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <input type="text" id="urlInput" placeholder="Enter .pb file URL">
+            <button id="loadButton">Load Tree</button>
+        </div>
+        <div id="browser"></div>
+    </div>
+    <script type="module">
+        import { FileBrowser } from './filebrowser.js';
+        const browser = new FileBrowser('browser');
+        const urlInput = document.getElementById('urlInput');
+        const loadButton = document.getElementById('loadButton');
+        
+        loadButton.addEventListener('click', () => {
+            const url = urlInput.value.trim();
+            if (url) {
+                browser.loadUrl(url);
+            }
+        });
+    </script>
+</body>
+</html>
