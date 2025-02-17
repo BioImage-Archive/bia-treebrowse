@@ -78,7 +78,7 @@ export function initializeApp() {
             treeView.innerHTML = '';
             
             // Add total size display
-            const totalSize = RadixTree.getLongSize(tree.root.size);
+            const totalSize = tree.getTotalSize();
             const totalSizeDiv = document.createElement('div');
             totalSizeDiv.className = 'total-size';
             totalSizeDiv.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
