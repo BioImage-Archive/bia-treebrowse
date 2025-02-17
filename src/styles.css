@@ -67,6 +67,7 @@
     background-color: #f5f5f5;
     border-radius: 4px;
     border: 1px solid #ddd;
+    line-height: 1.6;
 }
 
 .error {

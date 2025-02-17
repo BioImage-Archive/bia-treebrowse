@@ -78,11 +78,23 @@ export function initializeApp() {
             treeView.innerHTML = '';
             
             // Add total size display
+            const statsDiv = document.createElement('div');
+            statsDiv.className = 'total-size';
+            
+            // Add total size
             const totalSize = tree.getTotalSize();
-            const totalSizeDiv = document.createElement('div');
-            totalSizeDiv.className = 'total-size';
-            totalSizeDiv.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
-            treeView.appendChild(totalSizeDiv);
+            statsDiv.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            
+            // Add top file types
+            const topTypes = tree.getTopFileTypes(5);
+            if (topTypes.length > 0) {
+                statsDiv.innerHTML += '<br>Most common file types: ';
+                statsDiv.innerHTML += topTypes
+                    .map(([ext, count]) => `${ext} (${count})`)
+                    .join(', ');
+            }
+            
+            treeView.appendChild(statsDiv);
             
             // Add the tree view
             treeView.appendChild(createNodeElement(tree.root));

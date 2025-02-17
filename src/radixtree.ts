@@ -706,6 +706,34 @@ export class RadixTree {
     return RadixTree.getNodeSize(this.root);
   }
 
+  getFileTypes(): Map<string, number> {
+    const types = new Map<string, number>();
+    
+    const processNode = (node: RadixTreeNode, path: string) => {
+      if (node.children && node.children.length > 0) {
+        for (const edge of node.children) {
+          if (edge.child) {
+            processNode(edge.child, path + (edge.edge_label || ''));
+          }
+        }
+      } else if (path) {
+        // It's a file (no children)
+        const ext = path.split('.').pop()?.toLowerCase() || 'no extension';
+        types.set(ext, (types.get(ext) || 0) + 1);
+      }
+    };
+
+    processNode(this.root, '');
+    return types;
+  }
+
+  getTopFileTypes(count: number = 5): [string, number][] {
+    const types = this.getFileTypes();
+    return Array.from(types.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, count);
+  }
+
   // Get formatted size for display
   static formatSize(bytes: number): string {
     const units = ['B', 'KB', 'MB', 'GB', 'TB'];
