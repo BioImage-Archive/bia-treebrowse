@@ -85,9 +85,17 @@ export function initializeApp() {
             const statsDiv = document.createElement('div');
             statsDiv.className = 'total-size';
             
-            // Add total size
+            // Add total size and toggle button
             const totalSize = tree.getTotalSize();
-            statsDiv.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            const summaryHeader = document.createElement('div');
+            summaryHeader.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            
+            const toggleButton = document.createElement('button');
+            toggleButton.className = 'summary-toggle';
+            toggleButton.textContent = 'Hide Summary';
+            summaryHeader.appendChild(toggleButton);
+            
+            statsDiv.appendChild(summaryHeader);
             
             // Add top file types
             const topTypes = tree.getTopFileTypes(5);
@@ -127,6 +135,13 @@ export function initializeApp() {
                 });
                 
                 statsDiv.appendChild(table);
+                
+                // Add toggle functionality
+                toggleButton.addEventListener('click', () => {
+                    const isVisible = table.style.display !== 'none';
+                    table.style.display = isVisible ? 'none' : '';
+                    toggleButton.textContent = isVisible ? 'Show Summary' : 'Hide Summary';
+                });
             }
             
             treeView.appendChild(statsDiv);
