@@ -106,7 +106,7 @@ export function initializeApp() {
             
             // Add top file types
             const fileTypes = tree.getAllFileTypes();
-            if (topTypes.length > 0) {
+            if (fileTypes.length > 0) {
                 statsDiv.appendChild(document.createElement('br'));
                 
                 const table = document.createElement('table');
