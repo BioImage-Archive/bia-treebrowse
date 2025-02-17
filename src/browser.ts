@@ -76,6 +76,15 @@ export function initializeApp() {
         try {
             const tree = await RadixTree.loadFromUrl(url);
             treeView.innerHTML = '';
+            
+            // Add total size display
+            const totalSize = RadixTree.getLongSize(tree.root.size);
+            const totalSizeDiv = document.createElement('div');
+            totalSizeDiv.className = 'total-size';
+            totalSizeDiv.innerHTML = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            treeView.appendChild(totalSizeDiv);
+            
+            // Add the tree view
             treeView.appendChild(createNodeElement(tree.root));
         } catch (error) {
             treeView.innerHTML = `<p class="error">Error: ${error}</p>`;

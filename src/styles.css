@@ -59,6 +59,16 @@
     font-size: 0.9em;
 }
 
+.total-size {
+    font-family: monospace;
+    font-size: 1.1em;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
 .error {
     color: red;
 }
