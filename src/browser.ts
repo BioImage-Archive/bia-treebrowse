@@ -97,7 +97,9 @@ export function initializeApp() {
             toggleButton.textContent = 'Show Summary';
             
             const totalSizeSpan = document.createElement('span');
-            totalSizeSpan.textContent = `Total Size: ${RadixTree.formatSize(totalSize)}`;
+            const fileCount = tree.getTotalFileCount();
+            const mostCommonType = fileTypes.length > 0 ? fileTypes[0][0] : 'none';
+            totalSizeSpan.textContent = `Total Size: ${RadixTree.formatSize(totalSize)} | ${fileCount} files | Most common: ${mostCommonType}`;
             
             summaryHeader.appendChild(toggleButton);
             summaryHeader.appendChild(totalSizeSpan);

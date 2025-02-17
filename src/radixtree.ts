@@ -706,6 +706,23 @@ export class RadixTree {
     return RadixTree.getNodeSize(this.root);
   }
 
+  getTotalFileCount(): number {
+    let count = 0;
+    const processNode = (node: RadixTreeNode) => {
+      if (node.children && node.children.length > 0) {
+        for (const edge of node.children) {
+          if (edge.child) {
+            processNode(edge.child);
+          }
+        }
+      } else {
+        count++; // It's a file (no children)
+      }
+    };
+    processNode(this.root);
+    return count;
+  }
+
   getFileTypes(): Map<string, { count: number; size: number }> {
     const types = new Map<string, { count: number; size: number }>();
     
