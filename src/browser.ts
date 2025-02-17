@@ -92,7 +92,7 @@ export function initializeApp() {
             
             const toggleButton = document.createElement('button');
             toggleButton.className = 'summary-toggle';
-            toggleButton.textContent = 'Hide Summary';
+            toggleButton.textContent = 'Show Summary';
             summaryHeader.appendChild(toggleButton);
             
             statsDiv.appendChild(summaryHeader);
@@ -134,6 +134,7 @@ export function initializeApp() {
                     percentCell.textContent = `${stats.percentage.toFixed(1)}%`;
                 });
                 
+                table.style.display = 'none';
                 statsDiv.appendChild(table);
                 
                 // Add toggle functionality
