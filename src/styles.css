@@ -1,3 +1,22 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+#urlInput {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .tree-node {
     margin-left: 20px;
     font-family: monospace;
