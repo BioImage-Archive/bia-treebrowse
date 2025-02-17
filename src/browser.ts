@@ -26,10 +26,10 @@ export function initializeApp() {
         
         content.innerHTML = `
             <span class="path">${path || '/'}</span>
-            <span class="size">${RadixTree.formatSize(size)}${
+            <span class="size">${
                 node.children && node.children.length > 0 
-                ? ` (total: ${RadixTree.formatSize(RadixTree.getNodeSize(node))})`
-                : ''
+                ? `${RadixTree.formatSize(RadixTree.getNodeSize(node))} total`
+                : RadixTree.formatSize(size)
             }</span>
         `;
         content.insertBefore(icon, content.firstChild);
