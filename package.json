@@ -1,0 +1,19 @@
+{
+  "name": "radix-tree-viewer",
+  "version": "1.0.0",
+  "description": "Radix tree protobuf viewer",
+  "main": "dist/demo.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/demo.ts",
+    "serve": "http-server -c-1"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.19",
+    "ts-node": "^10.9.2",
+    "http-server": "^14.1.1"
+  }
+}

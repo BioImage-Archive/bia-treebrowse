@@ -637,7 +637,11 @@ export class RadixTree {
     return url.toLowerCase().endsWith('.xz');
   }
 
-  static decode(buffer: Uint8Array): RadixTree {
+  private static isGzipCompressed(url: string): boolean {
+    return url.toLowerCase().endsWith('.gz');
+  }
+
+  static async decode(buffer: Uint8Array): Promise<RadixTree> {
     const tree = new RadixTree();
     tree.root = decodeRadixTreeNode(buffer);
     return tree;
@@ -652,8 +656,26 @@ export class RadixTree {
     const data = new Uint8Array(buffer);
 
     if (RadixTree.isXzCompressed(url)) {
-      const decompressed = await lzma.decompress(data);
-      return RadixTree.decode(decompressed);
+      try {
+        const decompressed = await lzma.decompress(data);
+        return RadixTree.decode(decompressed);
+      } catch (e) {
+        console.error('Failed to decompress LZMA:', e);
+        throw e;
+      }
+    }
+
+    if (RadixTree.isGzipCompressed(url)) {
+      try {
+        const ds = new DecompressionStream('gzip');
+        const decompressedStream = new Blob([data]).stream().pipeThrough(ds);
+        const decompressedResponse = await new Response(decompressedStream);
+        const decompressedBuffer = await decompressedResponse.arrayBuffer();
+        return RadixTree.decode(new Uint8Array(decompressedBuffer));
+      } catch (e) {
+        console.error('Failed to decompress Gzip:', e);
+        throw e;
+      }
     }
     
     return RadixTree.decode(data);

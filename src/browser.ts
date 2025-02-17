@@ -1,4 +1,4 @@
-import { RadixTree, RadixTreeNode, RadixTreeEdge } from './radixtree.js';
+import { RadixTree, RadixTreeNode, RadixTreeEdge } from './radixtree';
 
 export function initializeApp() {
     const urlInput = document.getElementById('urlInput') as HTMLInputElement;
@@ -18,10 +18,18 @@ export function initializeApp() {
         const size = RadixTree.getLongSize(node.size);
         const content = document.createElement('div');
         content.className = 'node-content';
+        
+        // Add icon based on whether it's a file or directory
+        const icon = document.createElement('span');
+        icon.className = 'node-icon';
+        icon.textContent = node.children && node.children.length > 0 ? '📁' : '📄';
+        
         content.innerHTML = `
             <span class="path">${path || '/'}</span>
             <span class="size">${RadixTree.formatSize(size)}</span>
         `;
+        content.insertBefore(icon, content.firstChild);
+
         nodeDiv.appendChild(content);
 
         if (node.children && node.children.length > 0) {
