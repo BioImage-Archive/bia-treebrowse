@@ -63,7 +63,15 @@ export class FileBrowser {
                 
                 // Lazy load children
                 if (isHidden && childrenDiv.children.length === 0) {
-                    node.children?.forEach((edge: RadixTreeEdge) => {
+                    // Sort edges to put directories first
+                    const sortedEdges = [...(node.children || [])].sort((a, b) => {
+                        const aIsDir = a.child?.children && a.child.children.length > 0;
+                        const bIsDir = b.child?.children && b.child.children.length > 0;
+                        if (aIsDir === bIsDir) return 0;
+                        return aIsDir ? -1 : 1;
+                    });
+
+                    sortedEdges.forEach((edge: RadixTreeEdge) => {
                         if (edge.child) {
                             const childPath = path + (edge.edge_label || '');
                             childrenDiv.appendChild(this.createNodeElement(edge.child, childPath));
