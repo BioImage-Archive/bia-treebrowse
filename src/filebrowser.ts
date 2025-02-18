@@ -39,7 +39,7 @@ export class FileBrowser {
             <span class="path">${path || '/'}</span>
             <span class="size">${
                 node.children && node.children.length > 0 
-                ? `${RadixTree.formatSize(RadixTree.getNodeSize(node))} total`
+                ? `${RadixTree.formatSize(RadixTree.getNodeSize(node))} total (${node.children.length} items)`
                 : RadixTree.formatSize(size)
             }</span>
         `;
