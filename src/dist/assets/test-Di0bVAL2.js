@@ -1,0 +1,1 @@
+import{F as e}from"./filebrowser-Se_8WqcC.js";const o=new e("browser"),n=document.getElementById("urlInput"),r=document.getElementById("loadButton");r.addEventListener("click",()=>{const t=n.value.trim();t&&o.loadUrl(t)});
